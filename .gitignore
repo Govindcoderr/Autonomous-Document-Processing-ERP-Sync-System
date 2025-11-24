@@ -1,11 +1,9 @@
-# ---------------------------
-# 🧠 PYTHON / FASTAPI PROJECT
-# ---------------------------
+
+#  PYTHON / FASTAPI PROJECT
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
-*$py.class
 
 # Virtual environment
 .venv/
@@ -19,27 +17,6 @@ invoices.db
 
 # Distribution / packaging
 build/
-dist/
-*.egg-info/
-.eggs/
-*.manifest
-*.spec
-
-# Unit test / coverage reports
-.coverage
-.tox/
-.nox/
-.pytest_cache/
-htmlcov/
-
-# Poppler or Tesseract temp outputs
-*.ppm
-*.pbm
-*.pnm
-*.jpg~
-*.pdf~
-temp/
-tmp/
 
 # Streamlit
 .streamlit/
@@ -51,6 +28,6 @@ docker-compose.override.yml
 *.bak
 *.tar
 *.zip
-# ---------------------------
+
 # END OF FILE
-# ---------------------------
+

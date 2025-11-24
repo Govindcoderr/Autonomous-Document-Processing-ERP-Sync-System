@@ -8,7 +8,7 @@ from backend.main import process_invoice
 
 logging.basicConfig(level=logging.INFO)
 
-WATCH_DIR = "incoming_invoices"
+WATCH_DIR = "backend/agents/incoming_invoices"
 
 class InvoiceHandler(FileSystemEventHandler):
     def on_created(self, event):

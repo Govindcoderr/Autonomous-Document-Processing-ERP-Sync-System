@@ -2,8 +2,9 @@
 import sqlite3
 import os
 
+
 DB_PATH = os.path.abspath("invoices.db")
-print(f" Database Path: {DB_PATH}")
+# print(f" Database Path: {DB_PATH}")
 
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()

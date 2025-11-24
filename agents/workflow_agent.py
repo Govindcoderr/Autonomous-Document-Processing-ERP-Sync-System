@@ -1,16 +1,22 @@
-import sys
-import os
+import sys, os
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT_DIR)
+
 import threading
 import time
 import logging
 import uvicorn
+from folder_watcher import start_folder_watcher
+from email_watcher import start_email_watcher
+from backend.main import app
 
 # Make sure backend imports work
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from backend.agents.folder_watcher import start_folder_watcher
-from backend.agents.email_watcher import start_email_watcher
-from backend.main import app
+
+
+
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
