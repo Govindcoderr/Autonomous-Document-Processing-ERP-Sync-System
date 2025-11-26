@@ -11,3 +11,4 @@ opencv-python
 
 #pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib python-dotenv watchdog
 #pip install fastapi uvicorn python-dotenv passlib[bcrypt] pyjwt requests python-multipart streamlit
+#pip install bcrypt==3.2.2
