@@ -299,7 +299,12 @@
 #     }
 
 
+
+
+
 # backend/main.py
+
+
 
 import os
 import logging
@@ -321,7 +326,8 @@ from backend.db import (
 )
 from backend.erp_integration import push_to_erp
 from backend.query_engine import question_to_answer
-from backend import auth
+from backend import login_auth
+from backend.doc_identify.llm_groq_classifier import classify_document_llm
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
@@ -383,7 +389,7 @@ def get_current_user(authorization: str = Header(None)):
         raise HTTPException(401, "Invalid Authorization format")
 
     token = parts[1]
-    payload = auth.decode_access_token(token)
+    payload = login_auth.decode_access_token(token)
 
     user_id = payload.get("user_id")
     if not user_id:
@@ -402,10 +408,19 @@ def get_current_user(authorization: str = Header(None)):
 def process_invoice(invoice_bytes: bytes, user_id: int):
     try:
         raw_text = extract_text_from_image(invoice_bytes)
-        logging.info("1️⃣ OCR completed")
+        logging.info("1 OCR completed")
 
+        check_doc_type = classify_document_llm(raw_text)
+        logging.info(f"Document Type: {check_doc_type}")
+        
+        if check_doc_type != "invoice": 
+            logging.error("doc type")
+            return {"status": "failed", "error": f"Uploaded document is not an invoice your doc type is {check_doc_type}"}
+
+        #  Field Extraction using LLM
+        
         extracted = extract_fields(raw_text)
-        logging.info("2️⃣ Field extraction done")
+        logging.info("2 Field extraction done")
 
         validated = validate_invoice_data(extracted)
         if not validated:
@@ -415,7 +430,7 @@ def process_invoice(invoice_bytes: bytes, user_id: int):
         validated["user_id"] = user_id
 
         invoice_id = save_invoice_to_db(validated, user_id)
-        logging.info(f"4️⃣ Invoice saved ID={invoice_id}")
+        logging.info(f"4 Invoice saved ID={invoice_id}")
 
         push_to_erp(validated)
 
@@ -434,7 +449,6 @@ def process_invoice(invoice_bytes: bytes, user_id: int):
 
 
 # POST — Invoice Upload
-
 @app.post("/process-invoice/")
 async def process_invoice_api(
     file: UploadFile = File(...),
@@ -443,6 +457,16 @@ async def process_invoice_api(
     content = await file.read()
     return process_invoice(content, current_user["id"])
 
+#document type classification
+@app.post("/classify-document/")
+async def classify_document_api(
+    file: UploadFile = File(...),
+    
+):
+    content = await file.read()
+    raw_text = extract_text_from_image(content)
+    doc_type = classify_document_llm(raw_text)
+    return {"status": "success", "document_type": doc_type}
 
 # ------------------------- #
 # Authentication APIs
@@ -452,7 +476,7 @@ def register(payload: RegisterPayload):
     if get_user_by_username(payload.username):
         raise HTTPException(400, "Username already exists")
 
-    pwd_hash = auth.hash_password(payload.password)
+    pwd_hash = login_auth.hash_password(payload.password)
     user_id = create_user(payload.username, pwd_hash, payload.email)
 
     return {"status": "ok", "user_id": user_id}
@@ -464,10 +488,10 @@ def login(payload: LoginPayload):
     if not user:
         raise HTTPException(401, "Invalid username")
 
-    if not auth.verify_password(payload.password, user["password_hash"]):
+    if not login_auth.verify_password(payload.password, user["password_hash"]):
         raise HTTPException(401, "Invalid password")
 
-    token = auth.create_access_token({
+    token = login_auth.create_access_token({
         "user_id": user["id"],
         "username": user["username"]
     })

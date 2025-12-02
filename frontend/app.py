@@ -411,7 +411,7 @@ for msg in st.session_state.messages:
         st.markdown(f"**Bot:** {msg['content']}")
 
 
-query = st.chat_input("Ask something...")
+query = st.chat_input("Ask anything about your invoices...")
 
 def typing_effect(text):
     placeholder = st.empty()
