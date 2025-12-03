@@ -115,13 +115,16 @@ document_processing_agent/
 │ ├── llm_extractor.py # LLM-powered data parsing
 │ ├── data_validator.py # Field validation & cleanup
 │ ├── db.py # SQLite or Postgres database operations
-│ ├── erp_integration.py # Odoo or ERPNext connection logic
+│ ├── erp_integration.py # Odoo or ERPNext connection logic 
 │ └── Agents/
-|   ├──  email_watcher.py
-│   ├── folder_watcher.py
-│   ├── workflow_agent.py
-│
-├── frontend/
+| ├ ├──  email_watcher.py
+│ ├ ├── folder_watcher.py
+│ ├ ├── workflow_agent.py
+│ └─ doc_identify/
+|   ├──  llm_groq_classifier.py
+│   
+│   
+├── frontend/py
 │ └── app.py # Streamlit UI (file upload + status display)
 │
 ├── .env # credentials for ERP & APIs
