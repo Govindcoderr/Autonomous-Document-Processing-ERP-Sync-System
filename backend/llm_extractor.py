@@ -1,4 +1,4 @@
-# # backend/llm_extractor.py
+# # backend/llm_extractor.py   : Regex-based extractor (OLD - DEPRECATED)
 # import re
 # from datetime import datetime
 
@@ -65,87 +65,13 @@
 
 
 
-# # ------------------------final code of llm_etxactoer.py , working with customer data ----------
 
-# # backend/llm_extractor.py
-# import os
-# import json
-# import re
-# import requests
 
-# # Use your GROQ API Key (make sure it's valid)
-# GROQ_API_KEY = os.getenv(
-#     "GROQ_API_KEY",
-#     "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"
-# )
 
-# def extract_fields(text: str) -> dict:
-#     """
-#     Extract full structured invoice data (customer, email, date, items, etc.)
-#     using Groq LLM.
-#     """
-#     print("Raw OCR Text (first 300 chars):", text[:300])
 
-#     headers = {
-#         "Authorization": f"Bearer {GROQ_API_KEY}",
-#         "Content-Type": "application/json"
-#     }
 
-#     payload = {
-#         "model": "groq/compound-mini",
-#         "messages": [
-#             {
-#                 "role": "system",
-#                 "content": (
-#                     "You are an intelligent invoice data extractor. "
-#                     "Your job is to extract customer and item data from text and return ONLY valid JSON.\n\n"
-#                     "Output JSON format strictly:\n"
-#                     "{\n"
-#                     "  \"customer_name\": string,\n"
-#                     "  \"email\": string | null,\n"
-#                     "  \"invoice_date\": string (YYYY-MM-DD),\n"
-#                     "  \"reference_number\": string,\n"
-#                     "  \"items\": [\n"
-#                     "     {\"description\": string, \"quantity\": number, \"rate\": number}\n"
-#                     "  ]\n"
-#                     "}\n"
 
-#                     "Do not include any explanation or extra text."
-#                 )
-#             },
-#             {"role": "user", "content": text}
-#         ],
-#         "temperature": 0.1
-#     }
-
-#     try:
-#         response = requests.post(
-#             "https://api.groq.com/openai/v1/chat/completions",
-#             headers=headers,
-#             json=payload,
-#             timeout=30
-#         )
-#         response.raise_for_status()
-#         result = response.json()
-
-#         ai_output = result["choices"][0]["message"]["content"]
-#         cleaned_output = re.sub(r"```(json)?", "", ai_output).strip("` \n")
-
-#         data = json.loads(cleaned_output)
-#         print(" Extracted with LLM:", data)
-#         return data
-
-#     except Exception as e:
-#         print(f" LLM extraction failed: {e}")
-#         return {
-
-#             "customer_name": None,
-#             "email": None,
-#             "invoice_date": None,
-#             "reference_number": None,
-#             "items": []
-#         }
- 
+# backend/llm_extractor.py  : LLM-based extractor using Groq API
 import re
 import json
 import os
