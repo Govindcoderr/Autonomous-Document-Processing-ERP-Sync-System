@@ -1,4 +1,10 @@
-# 🧾 Document Processing Agent
+
+
+<p align="center">
+     <a href="https://trendshift.io/repositories/4046" target="_blank"><img src="https://trendshift.io/api/badge/repositories/4046" alt="PaddlePaddle%2FFastDeploy | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a></br>
+</p> 
+
+# 🧾 Document Processing Agent 
 
 This project is an end-to-end autonomous workflow system that processes invoices from multiple sources, extracts structured data using an LLM-based pipeline, validates the extracted fields, and pushes clean data to an ERP system. It operates continuously through background agents for real-time automation.
 
