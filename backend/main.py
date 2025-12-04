@@ -1,6 +1,4 @@
-
 # backend/main.py
-
 import os
 import logging
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, Header
@@ -30,11 +28,10 @@ logging.basicConfig(level=logging.INFO)
 app = FastAPI(title="Invoice + Multi-User Chatbot")
 
 
-# ==========================================================
 #  FIX — MOVE ALL INITIALIZATION INTO FASTAPI STARTUP EVENT
 # This code runs ONLY ONCE when the server starts.
 # It will NOT run again on each chatbot call.
-# ==========================================================
+
 @app.on_event("startup")
 async def startup_event():
     logging.info(" Server starting... running one-time setup.")
@@ -43,7 +40,7 @@ async def startup_event():
     init_db()
 
     logging.info("✅ One-time setup completed.")
-# ==========================================================
+
 
 
 # CORS

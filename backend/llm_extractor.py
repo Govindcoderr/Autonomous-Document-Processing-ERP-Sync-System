@@ -125,7 +125,7 @@ def extract_fields(text: str) -> dict:
     No regex. Robust for messy OCR.
     """
     text = sanitize_text(text)
-    print("Cleaned OCR:", text[:300])
+    print("Cleaned OCR:",text)
 
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
