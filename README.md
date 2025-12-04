@@ -289,6 +289,6 @@ streamlit run frontend/app.py
 <img width="2869" height="1461" alt="Screenshot 2025-11-06 182336" src="https://github.com/user-attachments/assets/691cb474-5f11-45f9-8b69-834de7e4e66c" />
 ---
 <img width="2880" height="1620" alt="Screenshot 2025-11-06 182411" src="https://github.com/user-attachments/assets/a040d812-aad8-4102-8591-ee434645f1ed" />
-
+#OCR #ocr
 ---
 
